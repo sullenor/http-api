@@ -1,0 +1,36 @@
+{
+  "name": "http-api",
+  "version": "1.0.0",
+  "description": "Simple helper to implement the http(s) api",
+  "engines": {
+    "node": ">=4"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha --ui tdd test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sullenor/http-api.git"
+  },
+  "keywords": [
+    "api",
+    "http",
+    "https",
+    "github"
+  ],
+  "author": "Alexey Litvinov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sullenor/http-api/issues"
+  },
+  "homepage": "https://github.com/sullenor/http-api#readme",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "got": "^6.1.1",
+    "lodash": "^4.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}
