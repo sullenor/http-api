@@ -3,6 +3,8 @@
 const assert = require('assert');
 const HttpApi = require('../../');
 const nock = require('nock');
+
+const httpApi = new HttpApi({retries: 0, timeout: 100});
 let scope;
 
 suiteTeardown(() => {
@@ -22,7 +24,7 @@ suite('http-api', () => {
     });
 
     test('should receive a response', done => {
-      new HttpApi().get('https://api.github.com/users/sullenor', {json: true, retries: 0, timeout: 100})
+      httpApi.get('https://api.github.com/users/sullenor')
         .then(response => {
           assert.equal(response.login, 'sullenor');
 
@@ -51,7 +53,7 @@ suite('http-api', () => {
     });
 
     test('should throw an error', done => {
-      new HttpApi().get('https://api.github.com/users/sullenor', {retries: 0, timeout: 100})
+      httpApi.get('https://api.github.com/users/sullenor', {json: false})
         .then(response => done(new Error('Successfully received a response instead of error')))
         .catch(er => {
           assert.equal(er.message, '404 Not Found ← GET https://api.github.com/users/sullenor');
