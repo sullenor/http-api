@@ -7,7 +7,8 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --ui tdd test/**/*.js"
+    "test": "mocha --ui tdd test/**/*.js",
+    "test:w": "mocha --ui tdd --watch test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "lodash": "^4.0.1"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "nock": "^7.0.2"
   }
 }
