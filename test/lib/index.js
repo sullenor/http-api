@@ -8,15 +8,13 @@ const httpApi = new HttpApi({retries: 0, timeout: 100});
 let scope;
 
 suite('http-api', () => {
-  suite('GET → success', () => {
+  teardown(() => nock.cleanAll());
+
+  suite('.get() → success', () => {
     setup(() => {
       scope = nock('https://api.github.com/')
         .get('/users/sullenor')
         .reply(200, require('../fixture/usersSullenor'));
-    });
-
-    teardown(() => {
-      nock.cleanAll();
     });
 
     test('should receive a response', done => {
@@ -35,15 +33,11 @@ suite('http-api', () => {
     });
   });
 
-  suite('GET → failure', () => {
+  suite('.get() → failure', () => {
     setup(() => {
       scope = nock('https://api.github.com/')
         .get('/users/sullenor')
         .reply(404, 'Not found');
-    });
-
-    teardown(() => {
-      nock.cleanAll();
     });
 
     test('should throw an error', done => {
@@ -57,7 +51,7 @@ suite('http-api', () => {
     });
   });
 
-  suite('POST → success', () => {
+  suite('.post() → success', () => {
     setup(() => {
       scope = nock('https://api.github.com/')
         .post('/users/sullenor', {request: 'hello'})
@@ -84,7 +78,7 @@ suite('http-api', () => {
     });
   });
 
-  suite('POST → failure', () => {
+  suite('.post() → failure', () => {
     setup(() => {
       scope = nock('https://api.github.com/')
         .post('/users/sullenor', {request: 'hello'})
