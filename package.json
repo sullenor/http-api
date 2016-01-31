@@ -7,8 +7,8 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --ui tdd test/**/*.js",
-    "test:w": "mocha --ui tdd --watch test/**/*.js"
+    "test": "mocha --ui tdd test/**/*.js test/*.js",
+    "test:w": "mocha --ui tdd --watch test/**/*.js test/*.js"
   },
   "repository": {
     "type": "git",
