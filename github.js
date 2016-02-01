@@ -1,6 +1,7 @@
 'use strict';
 
 const defaults = require('lodash').defaults;
+const get = require('lodash').get;
 const HttpApi = require('./lib');
 const inherits = require('util').inherits;
 
@@ -17,6 +18,7 @@ const inherits = require('util').inherits;
  */
 function Github(opts) {
   opts = defaults(opts, {uri: 'https://api.github.com/'});
+  opts.token && (opts.auth = `token ${get(opts, 'token')}`);
   HttpApi.call(this, opts);
 }
 
