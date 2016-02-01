@@ -36,7 +36,7 @@ suite('github', () => {
   suite('uses oauth token', () => {
     setup(() => {
       scope = nock('https://api.github.com/', {
-        reqHeaders: {
+        reqheaders: {
           authorization: 'token test_token',
         },
       })
