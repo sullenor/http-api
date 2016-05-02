@@ -1,63 +1,23 @@
-'use strict';
-
-const assert = require('assert');
 const Github = require('../github');
 const nock = require('nock');
+const test = require('tape');
 
-let scope;
+const github = new Github({
+  authorization: 'token magic_sequence',
+  timeout: 100,
+});
 
-suite('github', () => {
-  teardown(() => nock.cleanAll());
+test('GET', t => {
+  nock.cleanAll();
+  const scope = nock('https://api.github.com/')
+    .get('/test')
+    .reply(200, require('./lib/fixture/response'));
 
-  suite('uses https://api.github.com/ uri by default', () => {
-    setup(() => {
-      scope = nock('https://api.github.com/')
-        .get('/users/sullenor')
-        .reply(200, require('./fixture/usersSullenor'));
-    });
-
-    test('should pass', done => {
-      new Github({retries: 0, timeout: 100})
-        .get('/users/sullenor')
-        .then(response => {
-          if (!scope.isDone()) {
-            console.error('pending mocks: %j', scope.pendingMocks());
-            throw new Error('not all all expectations have been met');
-          }
-
-          assert.equal(response.login, 'sullenor');
-
-          done();
-        })
-        .catch(er => done(er));
-    });
-  });
-
-  suite('uses oauth token', () => {
-    setup(() => {
-      scope = nock('https://api.github.com/', {
-        reqheaders: {
-          authorization: 'token test_token',
-        },
-      })
-        .get('/users/sullenor')
-        .reply(200, require('./fixture/usersSullenor'));
-    });
-
-    test('should pass', done => {
-      new Github({retries: 0, timeout: 100, token: 'test_token'})
-        .get('/users/sullenor')
-        .then(response => {
-          if (!scope.isDone()) {
-            console.error('pending mocks: %j', scope.pendingMocks());
-            throw new Error('not all all expectations have been met');
-          }
-
-          assert.equal(response.login, 'sullenor');
-
-          done();
-        })
-        .catch(er => done(er));
-    });
-  });
+  github
+    .get('test')
+    .then(response => {
+      t.deepEqual(response.body, {result: 'ok'});
+      t.end();
+    })
+    .catch(er => t.end(er));
 });

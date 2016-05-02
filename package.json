@@ -1,14 +1,14 @@
 {
   "name": "http-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Simple helper to implement the http(s) api",
   "engines": {
     "node": ">=4"
   },
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --ui tdd test/**/*.js test/*.js",
-    "test:w": "mocha --ui tdd --watch test/**/*.js test/*.js"
+    "test": "faucet test/**/*.js test/*.js",
+    "test:raw": "tape test/**/*.js test/*.js"
   },
   "repository": {
     "type": "git",
@@ -28,11 +28,12 @@
   "homepage": "https://github.com/sullenor/http-api#readme",
   "dependencies": {
     "debug": "^2.2.0",
-    "got": "^6.1.1",
-    "lodash": "^4.0.1"
+    "got": "^6.3.0",
+    "lodash": "^4.11.1"
   },
   "devDependencies": {
-    "mocha": "^2.4.5",
-    "nock": "^7.0.2"
+    "faucet": "0.0.1",
+    "nock": "^8.0.0",
+    "tape": "^4.5.1"
   }
 }
