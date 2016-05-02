@@ -6,7 +6,7 @@ const { isBoolean, isString } = require('lodash');
 
 /**
  * @param {object}  [options]
- * @param {string}  [options.authorization]
+ * @param {string}  [options.authorization] 'token OAUTH-TOKEN' for example
  * @param {string}  [options.basepath]
  * @param {boolean} [options.json]
  * @param {number}  [options.retries]
