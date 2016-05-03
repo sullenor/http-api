@@ -9,7 +9,7 @@ const github = new Github({
 
 test('GET', t => {
   nock.cleanAll();
-  const scope = nock('https://api.github.com/')
+  nock('https://api.github.com/')
     .get('/test')
     .reply(200, require('./lib/fixture/response'));
 
