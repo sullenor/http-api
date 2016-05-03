@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/sullenor/http-api#readme",
   "dependencies": {
+    "commander": "^2.9.0",
     "debug": "^2.2.0",
     "got": "^6.3.0",
     "lodash": "^4.11.1"
