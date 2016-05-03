@@ -7,6 +7,7 @@
   },
   "main": "lib/index.js",
   "scripts": {
+    "lint": "find ./{lib,test,.} -name '*.js' | xargs eslint",
     "test": "faucet test/**/*.js test/*.js",
     "test:raw": "tape test/**/*.js test/*.js"
   },
@@ -32,6 +33,7 @@
     "lodash": "^4.11.1"
   },
   "devDependencies": {
+    "eslint": "^2.9.0",
     "faucet": "0.0.1",
     "nock": "^8.0.0",
     "tape": "^4.5.1"
