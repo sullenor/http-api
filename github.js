@@ -20,7 +20,7 @@ function Github(options) {
 
 inherits(Github, HttpApi);
 
-// gists
+// gists/
 
 Github.prototype.listAUsersGists = function (_, options) {
   // https://developer.github.com/v3/gists/#list-a-users-gists
@@ -52,25 +52,10 @@ Github.prototype.createAGist = function (_, options) {
   return this.post('/gists', options);
 };
 
-// Github.prototype.editAGist = function (_, options) {
-//   // https://developer.github.com/v3/gists/#edit-a-gist
-//   return this.patch(`/gists/:id`, options);
-// };
-
 Github.prototype.listGistCommits = function ({ id }, options) {
   // https://developer.github.com/v3/gists/#list-gist-commits
   return this.get(`/gists/${id}/commits`, options);
 };
-
-// Github.prototype.starAGist = function (_, options) {
-//   // https://developer.github.com/v3/gists/#star-a-gist
-//   return this.put(`/gists/:id/star`, options);
-// };
-
-// Github.prototype.unstarAGist = function (_, options) {
-//   // https://developer.github.com/v3/gists/#unstar-a-gist
-//   return this.delete(`/gists/:id/star`, options);
-// };
 
 Github.prototype.checkIfAGistIsStarred = function ({ id }, options) {
   // https://developer.github.com/v3/gists/#check-if-a-gist-is-starred
@@ -87,12 +72,24 @@ Github.prototype.listGistForks = function ({ id }, options) {
   return this.get(`/gists/${id}/forks`, options);
 };
 
-// Github.prototype.deleteAGist = function (_, options) {
-//   // https://developer.github.com/v3/gists/#delete-a-gist
-//   return this.delete(`/gists/:id`, options);
-// };
+// gists/comments/
 
-// issues
+Github.prototype.listCommentsOnAGist = function ({ gistId }, options) {
+  // https://developer.github.com/v3/gists/comments/#list-comments-on-a-gist
+  return this.get(`/gists/${gistId}/comments`, options);
+};
+
+Github.prototype.getASingleCommentFromAGist = function ({ gistId, id }, options) {
+  // https://developer.github.com/v3/gists/comments/#get-a-single-comment
+  return this.get(`/gists/${gistId}/comments/${id}`, options);
+};
+
+Github.prototype.createACommentForAGist = function ({ gistId }, options) {
+  // https://developer.github.com/v3/gists/comments/#create-a-comment
+  return this.post(`/gists/${gistId}/comments`, options);
+};
+
+// issues/
 
 Github.prototype.listIssues = function (_, options) {
   // https://developer.github.com/v3/issues/#list-issues
@@ -114,20 +111,105 @@ Github.prototype.createAnIssue = function ({ owner, repo }, options) {
   return this.post(`/repos/${owner}/${repo}/issues`, options);
 };
 
-// Github.prototype.editAnIssue = function (_, options) {
-//   // https://developer.github.com/v3/issues/#edit-an-issue"
-//   return this.patch(`/repos/:owner/:repo/issues/:number`, options);
-// };
+// issues/assignees/
 
-// Github.prototype.lockAnIssue = function (_, options) {
-//   // https://developer.github.com/v3/issues/#lock-an-issue"
-//   return this.put(`/repos/:owner/:repo/issues/:number/lock`, options);
-// };
+Github.prototype.listAssignees = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/assignees/#list-assignees
+  return this.get(`/repos/${owner}/${repo}/assignees`, options);
+};
 
-// Github.prototype.unlockAnIssue = function (_, options) {
-//   // https://developer.github.com/v3/issues/#unlock-an-issue"
-//   return this.delete(`/repos/:owner/:repo/issues/:number/lock`, options);
-// };
+Github.prototype.checkAssignee = function ({ owner, repo, assignee }, options) {
+  // https://developer.github.com/v3/issues/assignees/#check-assignee
+  return this.get(`/repos/${owner}/${repo}/assignees/${assignee}`, options);
+};
+
+// issues/comments/
+
+Github.prototype.listCommentsOnAnIssue = function ({ owner, repo, number }, options) {
+  // https://developer.github.com/v3/issues/comments/#list-comments-on-an-issue
+  return this.get(`/repos/${owner}/${repo}/issues/${number}/comments`, options);
+};
+
+Github.prototype.listCommentsInARepository = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/comments/#list-comments-in-a-repository
+  return this.get(`/repos/${owner}/${repo}/issues/comments`, options);
+};
+
+Github.prototype.getASingleCommentFromARepository = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/comments/#get-a-single-comment
+  return this.get(`/repos/${owner}/${repo}/issues/comments/:id`, options);
+};
+
+Github.prototype.createACommentForARepository = function ({ owner, repo, number }, options) {
+  // https://developer.github.com/v3/issues/comments/#create-a-comment
+  return this.post(`/repos/${owner}/${repo}/issues/${number}/comments`, options);
+};
+
+// issues/events/
+
+Github.prototype.listEventsForAnIssue = function ({ owner, repo, issueNumber }, options) {
+  // https://developer.github.com/v3/issues/events/#list-events-for-an-issue
+  return this.get(`/repos/${owner}/${repo}/issues/${issueNumber}/events`, options);
+};
+
+Github.prototype.listEventsForARepository = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/events/#list-events-for-a-repository
+  return this.get(`/repos/${owner}/${repo}/issues/events`, options);
+};
+
+Github.prototype.getASingleEvent = function ({ owner, repo, id }, options) {
+  // https://developer.github.com/v3/issues/events/#get-a-single-event
+  return this.get(`/repos/${owner}/${repo}/issues/events/${id}`, options);
+};
+
+// issues/labels/
+
+Github.prototype.listAllLabelsForThisRepository = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository
+  return this.get(`/repos/${owner}/${repo}/labels`, options);
+};
+
+Github.prototype.getASingleLabel = function ({ owner, repo, name }, options) {
+  // https://developer.github.com/v3/issues/labels/#get-a-single-label
+  return this.get(`/repos/${owner}/${repo}/labels/${name}`, options);
+};
+
+Github.prototype.createALabel = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/labels/#create-a-label
+  return this.post(`/repos/${owner}/${repo}/labels`, options);
+};
+
+Github.prototype.listLabelsOnAnIssue = function ({ owner, repo, number }, options) {
+  // https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue
+  return this.get(`/repos/${owner}/${repo}/issues/${number}/labels`, options);
+};
+
+Github.prototype.addLabelsToAnIssue = function ({ owner, repo, number }, options) {
+  // https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue
+  return this.post(`/repos/${owner}/${repo}/issues/${number}/labels`, options);
+};
+
+Github.prototype.getLabelsForEveryIssueInAMilestone = function ({ owner, repo, number }, options) {
+  // https://developer.github.com/v3/issues/labels/#get-labels-for-every-issue-in-a-milestone
+  return this.get(`/repos/${owner}/${repo}/milestones/${number}/labels`, options);
+};
+
+// issues/milestones/
+
+Github.prototype.listMilestonesForARepository = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository
+  return this.get(`/repos/${owner}/${repo}/milestones`, options);
+};
+
+Github.prototype.getASingleMilestone = function ({ owner, repo, number }, options) {
+  // https://developer.github.com/v3/issues/milestones/#get-a-single-milestone
+  return this.get(`/repos/${owner}/${repo}/milestones/${number}`, options);
+};
+
+Github.prototype.createAMilestone = function ({ owner, repo }, options) {
+  // https://developer.github.com/v3/issues/milestones/#create-a-milestone
+  return this.post(`/repos/${owner}/${repo}/milestones`, options);
+};
 
 // orgs
 
@@ -151,9 +233,115 @@ Github.prototype.getAnOrganization = function ({ org }, options) {
   return this.get(`/orgs/${org}`, options);
 };
 
-Github.prototype.editAnOrganization = function ({ org }, options) {
-  // https://developer.github.com/v3/orgs/#edit-an-organization
-  return this.patch(`/orgs/${org}`, options);
+// orgs/members/
+
+Github.prototype.membersList = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/members/#members-list
+  return this.get(`/orgs/${org}/members`, options);
+};
+
+Github.prototype.checkMembership = function ({ org, username }, options) {
+  // https://developer.github.com/v3/orgs/members/#check-membership
+  return this.get(`/orgs/${org}/members/${username}`, options);
+};
+
+Github.prototype.publicMembersList = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/members/#public-members-list
+  return this.get(`/orgs/${org}/public_members`, options);
+};
+
+Github.prototype.checkPublicMembership = function ({ org, username }, options) {
+  // https://developer.github.com/v3/orgs/members/#check-public-membership
+  return this.get(`/orgs/${org}/public_members/${username}`, options);
+};
+
+Github.prototype.getOrganizationMembership = function ({ org, username }, options) {
+  // https://developer.github.com/v3/orgs/members/#get-organization-membership
+  return this.get(`/orgs/${org}/memberships/${username}`, options);
+};
+
+Github.prototype.listYourOrganizationMemberships = function (_, options) {
+  // https://developer.github.com/v3/orgs/members/#list-your-organization-memberships
+  return this.get('/user/memberships/orgs', options);
+};
+
+Github.prototype.getYourOrganizationMembership = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/members/#get-your-organization-membership
+  return this.get(`/user/memberships/orgs/${org}`, options);
+};
+
+// orgs/teams/
+
+Github.prototype.listTeamsForARepositoryForAnOrg = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/teams/#list-teams
+  return this.get(`/orgs/${org}/teams`, options);
+};
+
+Github.prototype.getTeam = function ({ id }, options) {
+  // https://developer.github.com/v3/orgs/teams/#get-team
+  return this.get(`/teams/${id}`, options);
+};
+
+Github.prototype.createTeam = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/teams/#create-team
+  return this.post(`/orgs/${org}/teams`, options);
+};
+
+Github.prototype.listTeamMembers = function ({ id }, options) {
+  // https://developer.github.com/v3/orgs/teams/#list-team-members
+  return this.get(`/teams/${id}/members`, options);
+};
+
+Github.prototype.getTeamMember = function ({ id, username }, options) {
+  // https://developer.github.com/v3/orgs/teams/#get-team-member
+  return this.get(`/teams/${id}/members/${username}`, options);
+};
+
+Github.prototype.getTeamMembership = function ({ id, username }, options) {
+  // https://developer.github.com/v3/orgs/teams/#get-team-membership
+  return this.get(`/teams/${id}/memberships/${username}`, options);
+};
+
+Github.prototype.listTeamRepos = function ({ id }, options) {
+  // https://developer.github.com/v3/orgs/teams/#list-team-repos
+  return this.get(`/teams/${id}/repos`, options);
+};
+
+Github.prototype.checkIfATeamManagesARepository = function ({ id, owner, repo }, options) {
+  // https://developer.github.com/v3/orgs/teams/#check-if-a-team-manages-a-repository
+  return this.get(`/teams/${id}/repos/${owner}/${repo}`, options);
+};
+
+Github.prototype.listUserTeams = function (_, options) {
+  // https://developer.github.com/v3/orgs/teams/#list-user-teams
+  return this.get('/user/teams', options);
+};
+
+// orgs/hooks/
+
+Github.prototype.scopesRestrictions = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/hooks/#scopes--restrictions
+  return this.get(`/orgs/${org}/hooks`, options);
+};
+
+Github.prototype.listHooks = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/hooks/#list-hooks
+  return this.get(`/orgs/${org}/hooks`, options);
+};
+
+Github.prototype.getSingleHook = function ({ org, id }, options) {
+  // https://developer.github.com/v3/orgs/hooks/#get-single-hook
+  return this.get(`/orgs/${org}/hooks/${id}`, options);
+};
+
+Github.prototype.createAHook = function ({ org }, options) {
+  // https://developer.github.com/v3/orgs/hooks/#create-a-hook
+  return this.post(`/orgs/${org}/hooks`, options);
+};
+
+Github.prototype.pingAHook = function ({ org, id }, options) {
+  // https://developer.github.com/v3/orgs/hooks/#ping-a-hook
+  return this.post(`/orgs/${org}/hooks/${id}/pings`, options);
 };
 
 // pulls
@@ -173,11 +361,6 @@ Github.prototype.createAPullRequest = function ({ owner, repo }, options) {
   return this.post(`/repos/${owner}/${repo}/pulls`, options);
 };
 
-// Github.prototype.updateAPullRequest = function (_, options) {
-//   // https://developer.github.com/v3/pulls/#update-a-pull-request
-//   return this.patch(`/repos/:owner/:repo/pulls/:number`, options);
-// };
-
 Github.prototype.listCommitsOnAPullRequest = function ({ owner, repo, number }, options) {
   // https://developer.github.com/v3/pulls/#list-commits-on-a-pull-request
   return this.get(`/repos/${owner}/${repo}/pulls/${number}/commits`, options);
@@ -192,11 +375,6 @@ Github.prototype.getIfAPullRequestHasBeenMerged = function ({ owner, repo, numbe
   // https://developer.github.com/v3/pulls/#get-if-a-pull-request-has-been-merged
   return this.get(`/repos/${owner}/${repo}/pulls/${number}/merge`, options);
 };
-
-// Github.prototype.mergeAPullRequest = function (_, options) {
-//   // https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button
-//   return this.put(`/repos/:owner/:repo/pulls/:number/merge`, options);
-// };
 
 // repos
 
@@ -230,11 +408,6 @@ Github.prototype.getRepo = function ({ owner, repo }, options) {
   return this.get(`/repos/${owner}/${repo}`, options);
 };
 
-// Github.prototype.edit = function (_, options) {
-//   // https://developer.github.com/v3/repos/#edit
-//   return this.patch(`/repos/:owner/:repo`, options);
-// };
-
 Github.prototype.listContributors = function ({ owner, repo }, options) {
   // https://developer.github.com/v3/repos/#list-contributors
   return this.get(`/repos/${owner}/${repo}/contributors`, options);
@@ -245,7 +418,7 @@ Github.prototype.listLanguages = function ({ owner, repo }, options) {
   return this.get(`/repos/${owner}/${repo}/languages`, options);
 };
 
-Github.prototype.listTeams = function ({ owner, repo }, options) {
+Github.prototype.listTeamsForARepository = function ({ owner, repo }, options) {
   // https://developer.github.com/v3/repos/#list-teams
   return this.get(`/repos/${owner}/${repo}/teams`, options);
 };
@@ -264,16 +437,6 @@ Github.prototype.getBranch = function ({ owner, repo, branch }, options) {
   // https://developer.github.com/v3/repos/#get-branch
   return this.get(`/repos/${owner}/${repo}/branches/${branch}`, options);
 };
-
-// Github.prototype.enablingAndDisablingBranchProtection = function ({ owner, repo }, options) {
-//   // https://developer.github.com/v3/repos/#enabling-and-disabling-branch-protection
-//   return this.patch(`/repos/${owner}/${repo}/branches/:branch`, options);
-// };
-
-// Github.prototype.deleteARepository = function ({ owner, repo }, options) {
-//   // https://developer.github.com/v3/repos/#delete-a-repository
-//   return this.delete(`/repos/${owner}/${repo}`, options);
-// };
 
 // search
 
@@ -308,11 +471,6 @@ Github.prototype.getTheAuthenticatedUser = function (_, options) {
   // https://developer.github.com/v3/users/#get-the-authenticated-user
   return this.get('/user', options);
 };
-
-// Github.prototype.updateTheAuthenticatedUser = function (_, options) {
-//   // https://developer.github.com/v3/users/#update-the-authenticated-user
-//   return this.patch(`/user`, options);
-// };
 
 Github.prototype.getAllUsers = function (_, options) {
   // https://developer.github.com/v3/users/#get-all-users
