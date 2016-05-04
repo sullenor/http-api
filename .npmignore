@@ -1,0 +1,5 @@
+.editorconfig
+.eslintrc.json
+.gitignore
+generate.js
+test/*
