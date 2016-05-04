@@ -651,10 +651,11 @@ Github.prototype.getAnIndividualLicense = function (_, options) {
   return this.get('/licenses/mit', options);
 };
 
-Github.prototype.getARepository = function ({ owner, repo }, options) {
-  // https://developer.Github.com/v3/licenses/#get-a-repositorys-license
-  return this.get(`/repos/${owner}/${repo}`, options);
-};
+// looks like typo in docs
+// Github.prototype.getARepository = function ({ owner, repo }, options) {
+//   // https://developer.Github.com/v3/licenses/#get-a-repositorys-license
+//   return this.get(`/repos/${owner}/${repo}`, options);
+// };
 
 Github.prototype.getTheContentsOfARepository = function ({ owner, repo }, options) {
   // https://developer.Github.com/v3/licenses/#get-the-contents-of-a-repositorys-license
@@ -1001,12 +1002,12 @@ Github.prototype.create = function (_, options) {
   return this.post('/user/repos', options);
 };
 
-Github.prototype.get = function ({ owner, repo }, options) {
+Github.prototype.getARepository = function ({ owner, repo }, options) {
   // https://developer.Github.com/v3/repos/#get
   return this.get(`/repos/${owner}/${repo}`, options);
 };
 
-Github.prototype.edit = function ({ owner, repo }, options) {
+Github.prototype.editARepository = function ({ owner, repo }, options) {
   // https://developer.Github.com/v3/repos/#edit
   return this.patch(`/repos/${owner}/${repo}`, options);
 };
